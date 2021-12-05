@@ -58,7 +58,7 @@ class _HomePageState extends State<HomePage> {
             "Home",
           ),
         ),
-        body: this.getBody());
+        body: getBody());
   }
 
   void onTapHandler(int index) {
@@ -67,11 +67,8 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  void _checkMouse() {
-    setState(() {
-      check = !check;
-    });
-  }
+  
+  
 
   Widget getBody() {
     // if(selectedIndex == 0) {

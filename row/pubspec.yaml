@@ -31,6 +31,7 @@ dependencies:
     sdk: flutter
   chewie: ^1.1.0
   video_player: ^2.1.1
+  http: ^0.12.0+2
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -65,6 +66,7 @@ flutter:
     - assets/welcome.jpg
     - assets/hello.png
     - assets/buffet.png
+    - assets/music.mp4
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

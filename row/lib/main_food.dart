@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:chewie/chewie.dart';
 import 'package:video_player/video_player.dart';
-import 'chewie_list_item.dart';
+import 'asset_player_widget.dart';
 
 class MainFood extends StatelessWidget {
   const MainFood({Key? key}) : super(key: key);
@@ -58,13 +58,9 @@ class _MainFoodPageState extends State<MainFoodPage> {
           children: <Widget>[
             Expanded(
               flex: 4,
-              child: ChewieListItem(
-                videoPlayerController: VideoPlayerController.network(
-                  'https://www.youtube.com/watch?v=r57VfwRdxFA',
-                ),
-                looping: true,
-                
-              ),
+              child: 
+          AssetPlayerWidget(),
+          
             ),
             Expanded(
                 flex: 1,
@@ -207,5 +203,6 @@ class _MainFoodPageState extends State<MainFoodPage> {
     );
   }
 }
+
 
 
