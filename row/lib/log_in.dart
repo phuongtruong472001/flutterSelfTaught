@@ -3,7 +3,7 @@ import 'package:row/blocs/login_bloc.dart';
 import 'package:row/welcome.dart';
 
 class LogIn extends StatelessWidget {
-  const LogIn({Key? key}) : super(key: key);
+  const LogIn({Key key}) : super(key: key);
 
   // This widget is the root of your application.
   @override
@@ -130,7 +130,7 @@ class _LogInPageState extends State<LogInPage> {
 
 class MyContainer extends StatelessWidget {
   const MyContainer({
-    Key? key,
+    Key key,
   }) : super(key: key);
 
   @override

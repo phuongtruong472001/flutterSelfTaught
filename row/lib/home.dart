@@ -5,7 +5,7 @@ int selectedIndexBottomNavigationBar = 0;
 int selectedIndexTabBar=0;
 
 class Home extends StatelessWidget {
-  const Home({Key? key}) : super(key: key);
+  const Home({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -141,17 +141,19 @@ class _MyHomePageState extends State<MyHomePage> {
                     onTapHandler(index);
                   },
                   tabs: [
-                    Container(
-                      decoration: BoxDecoration(
-                          color: Colors.tealAccent,
-                          border: Border.all(color: Colors.black26),
-                          borderRadius: BorderRadius.all(Radius.circular(20))),
-                      margin: const EdgeInsets.symmetric(vertical: 2.0),
-                      width: 80,
-                      child: Center(
-                        child: Text(
-                          "All",
-                          textAlign: TextAlign.center,
+                    Center(
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.tealAccent,
+                            border: Border.all(color: Colors.black26),
+                            borderRadius: BorderRadius.all(Radius.circular(20))),
+                        margin: const EdgeInsets.symmetric(vertical: 2.0),
+                        width: 80,
+                        child: Center(
+                          child: Text(
+                            "All",
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                       ),
                     ),
@@ -234,7 +236,9 @@ class _MyHomePageState extends State<MyHomePage> {
                               children: <Widget>[],
                             ),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            
+                          },
                         ),
                         OutlinedButton(
                           child: Container(

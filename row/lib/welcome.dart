@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:row/home.dart';
 
 class Welcome extends StatelessWidget {
-  const Welcome({Key? key}) : super(key: key);
+  const Welcome({Key key}) : super(key: key);
 
   // This widget is the root of your application.
   @override

@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
 class AssetPlayerWidget extends StatefulWidget {
-  const AssetPlayerWidget({Key? key}) : super(key: key);
+  const AssetPlayerWidget({Key key}) : super(key: key);
   // This will contain the URL/asset path which we want to play
   @override
   __AssetPlayerWidgetState createState() => __AssetPlayerWidgetState();
 }
 
 class __AssetPlayerWidgetState extends State<AssetPlayerWidget> {
-  late VideoPlayerController _controller;
+   VideoPlayerController _controller;
   final asset = 'assets/music.mp4';
   @override
   void initState() {

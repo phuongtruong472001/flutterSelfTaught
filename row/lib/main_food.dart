@@ -5,7 +5,7 @@ import 'package:video_player/video_player.dart';
 import 'asset_player_widget.dart';
 
 class MainFood extends StatelessWidget {
-  const MainFood({Key? key}) : super(key: key);
+  const MainFood({Key key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -20,7 +20,7 @@ class MainFoodPage extends StatefulWidget {
 }
 
 class _MainFoodPageState extends State<MainFoodPage> {
-  late VideoPlayerController _controller;
+   VideoPlayerController _controller;
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -17,35 +17,30 @@ class Food {
   Food(this.id,this.foodName, this.img, this.material, this.recipes, this.nutrition, this.publicId);
   
 }
-List<Food> foods=[];
-Future fetchAlbum() async {
-
-  var response = await http
-      .get(Uri.https('haui-hit-food.herokuapp.com','api/food'));
-    var jsonData=jsonDecode(response.body);
-    
-    for (var a in jsonData){
-      Food food = Food(a["id"],a["foodName"],a["img"],a["material"],a["recipes"],a["nutrition"],a["publicId"]);
-      foods.add(food);
-    }
-    
-
-  return foods;
-}
 
 
 
-//void main() => runApp(const MyApp());
 
 class CallApi extends StatefulWidget {
-  const CallApi({Key? key}) : super(key: key);
+  const CallApi({Key key}) : super(key: key);
 
   @override
   _CallApiState createState() => _CallApiState();
 }
 
 class _CallApiState extends State<CallApi> {
+  Future fetchAlbum() async {
 
+  var response = await http
+      .get(Uri.https('haui-hit-food.herokuapp.com','api/food'));
+    var jsonData=jsonDecode(response.body);
+    List<Food> foods=[];
+    for (var a in jsonData){
+      Food food = Food(a["id"],a["foodName"],a["img"],a["material"],a["recipes"],a["nutrition"],a["publicId"]);
+      foods.add(food);
+    }
+  return foods;
+}
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -67,7 +62,8 @@ class _CallApiState extends State<CallApi> {
                   scrollDirection: Axis.vertical,
                   itemBuilder: (context,index){
                     return ListTile(
-                      title: Text(foods[index].foodName),
+                      title: Text(snapshot.data[index].foodName),
+                      subtitle: Text(snapshot.data[index].foodName),
                     );
                   
                 });
