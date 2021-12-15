@@ -1,82 +1,86 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:http/http.dart';
+import 'package:row/Food.dart';
 
 
-import 'package:flutter/material.dart';
-// ignore: import_of_legacy_library_into_null_safe
-import 'package:http/http.dart' as http;
-class Food {
+
+class HttpService{
+  final String foodsUrl="https://haui-hit-food.herokuapp.com/api/food";
   
-  final int id;
-  final String foodName;
-  final String img;
-  final String material;
-  final String recipes;
-  final String nutrition;
-  final String publicId;
-  Food(this.id,this.foodName, this.img, this.material, this.recipes, this.nutrition, this.publicId);
-  
-}
+    Future<List<Food>> getFoods() async{
+      Response res = await get(Uri.parse(foodsUrl));
 
+      if (res.statusCode == 200) {
+      List<dynamic> body = jsonDecode(res.body);
 
+      List<Food> foods = body
+        .map(
+          (dynamic item) => Food.fromJson(item),
+        )
+        .toList();
 
-
-class CallApi extends StatefulWidget {
-  const CallApi({Key key}) : super(key: key);
-
-  @override
-  _CallApiState createState() => _CallApiState();
-}
-
-class _CallApiState extends State<CallApi> {
-  Future fetchAlbum() async {
-
-  var response = await http
-      .get(Uri.https('haui-hit-food.herokuapp.com','api/food'));
-    var jsonData=jsonDecode(response.body);
-    List<Food> foods=[];
-    for (var a in jsonData){
-      Food food = Food(a["id"],a["foodName"],a["img"],a["material"],a["recipes"],a["nutrition"],a["publicId"]);
-      foods.add(food);
+        return foods;
+      }
+      else{
+        throw "can't get api";
+      }
     }
-  return foods;
 }
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Fetch Data Example',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Fetch Data Example'),
-        ),
-        body: Center(
-          child: FutureBuilder(
-            future: fetchAlbum(),
-            builder: (context, snapshot) {
-              if (snapshot.data!=null) {
-                
-                return  ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  itemBuilder: (context,index){
-                    return ListTile(
-                      title: Text(snapshot.data[index].foodName),
-                      subtitle: Text(snapshot.data[index].foodName),
-                    );
-                  
-                });
-              } else  if(snapshot.data==null){
-                return Text('${snapshot.error}');
-              }
 
-              // By default, show a loading spinner.
-             return const CircularProgressIndicator();
-            },
-          ),
-        ),
-      ),
-    );
-  }
-}
+
+
+// class CallApi extends StatefulWidget {
+//   const CallApi({Key key}) : super(key: key);
+
+//   @override
+//   _CallApiState createState() => _CallApiState();
+// }
+
+// class _CallApiState extends State<CallApi> {
+//   final uri="http://localhost:3000/Foods" ;
+//   var _foodsJson=[];
+//   void fetchFoods() async {
+    
+//     try{
+//       final respone=await http.get(Uri.parse(uri));
+//       final jsonData=jsonDecode(respone.body) as List;
+//       setState(() {
+//         _foodsJson=jsonData;
+//     });
+//     }catch(err){}
+
+  
+//     }
+//   @override
+//   void initState() {
+//     // TODO: implement initState
+//     super.initState();
+//     fetchFoods();
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       title: 'Fetch Data Example',
+//       theme: ThemeData(
+//         primarySwatch: Colors.blue,
+//       ),
+//       home: Scaffold(
+//         appBar: AppBar(
+//           title: const Text('Fetch Data Example'),
+//         ),
+//         body: Center(
+//           child: 
+//                   ListView.builder(
+//                   scrollDirection: Axis.vertical,
+//                   itemBuilder: (context,index){
+//                     var food =_foodsJson[index];
+//                         return  Image.network(food["img"]);
+//             },
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }

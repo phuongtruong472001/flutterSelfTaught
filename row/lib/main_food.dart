@@ -1,36 +1,28 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:chewie/chewie.dart';
+import 'package:row/home.dart';
 import 'package:video_player/video_player.dart';
+
 import 'asset_player_widget.dart';
 
 class MainFood extends StatelessWidget {
-  const MainFood({Key key}) : super(key: key);
+  VideoPlayerController _controller;
+  var  food;
+
+  MainFood({Key key, this.food}) : super(key: key);
+  
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: MainFoodPage(),
-    );
-  }
-}
-
-class MainFoodPage extends StatefulWidget {
-  @override
-  _MainFoodPageState createState() => _MainFoodPageState();
-}
-
-class _MainFoodPageState extends State<MainFoodPage> {
-   VideoPlayerController _controller;
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
+    final _material=food["material"];
+      return Scaffold(appBar: AppBar(
         backgroundColor: Colors.white,
-        title: Text("Salmon Sushi", style: TextStyle(color: Colors.black)),
+        title: Text(food["foodName"], style: TextStyle(color: Colors.black)),
         centerTitle: true,
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>HomePage()));
+          },
           color: Colors.black,
         ),
         actions: <Widget>[
@@ -58,8 +50,8 @@ class _MainFoodPageState extends State<MainFoodPage> {
           children: <Widget>[
             Expanded(
               flex: 4,
-              child: 
-          AssetPlayerWidget(),
+              child: Image.network(food["img"])
+          
           
             ),
             Expanded(
@@ -86,102 +78,38 @@ class _MainFoodPageState extends State<MainFoodPage> {
                 )),
             Expanded(
                 flex: 4,
-                child: ListView(
+                child: ListView.builder(
                   scrollDirection: Axis.vertical,
-                  children: <Widget>[
-                    Container(
+                  itemCount: _material.length,
+                  itemBuilder: (context,index)
+                  {
+                    var  material=_material[index];
+                    var name=material["name"];
+                    var count=material["count"];
+                    return Container(
                       decoration: BoxDecoration(
                           color: Colors.black12,
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                          borderRadius: BorderRadius.all(Radius.circular(5))),
                       height: 60,
-                      margin: const EdgeInsets.symmetric(vertical: 5.0),
-                      child: Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: Icon(Icons.rice_bowl),
-                            flex: 1,
-                          ),
-                          Expanded(
-                            child: Text("Rice Bowl"),
-                            flex: 2,
-                          ),
-                          Expanded(
-                            child: Text("1000g"),
-                            flex: 2,
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                          color: Colors.black12,
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
-                      height: 60,
-                      margin: const EdgeInsets.symmetric(vertical: 5.0),
-                      child: Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: Icon(Icons.rice_bowl),
-                            flex: 1,
-                          ),
-                          Expanded(
-                            child: Text("Rice Bowl"),
-                            flex: 2,
-                          ),
-                          Expanded(
-                            child: Text("1000g"),
-                            flex: 2,
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                          color: Colors.black12,
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
-                      height: 60,
-                      margin: const EdgeInsets.symmetric(vertical: 5.0),
-                      child: Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: Icon(Icons.rice_bowl),
-                            flex: 1,
-                          ),
-                          Expanded(
-                            child: Text("Rice Bowl"),
-                            flex: 2,
-                          ),
-                          Expanded(
-                            child: Text("1000g"),
-                            flex: 2,
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                          color: Colors.black12,
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
-                      height: 60,
-                      margin: const EdgeInsets.symmetric(vertical: 5.0),
-                      child: Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: Icon(Icons.rice_bowl),
-                            flex: 1,
-                          ),
-                          Expanded(
-                            child: Text("Rice Bowl"),
-                            flex: 2,
-                          ),
-                          Expanded(
-                            child: Text("1000g"),
-                            flex: 2,
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
+                      margin: const EdgeInsets.symmetric(vertical: 2.0),
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(15, 0, 5, 0),
+                        child: Row(
+                          children: <Widget>[
+                            
+                              Expanded(
+                                child: Text(name),
+                                flex: 2,
+                              ),
+                        
+                            Expanded(
+                              child: Text(count),
+                              flex: 1,
+                            ),
+                          ]),
+                      ));
+                  }
+                  
                 )),
             Expanded(
                 flex: 1,

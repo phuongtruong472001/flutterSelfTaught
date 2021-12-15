@@ -1,8 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:async';
+import 'dart:convert';
+
+import 'package:row/call_api.dart';
+import 'package:row/main_food.dart';
+
+import 'Food.dart';
 
 int selectedIndexBottomNavigationBar = 0;
-int selectedIndexTabBar=0;
+int selectedIndexTabBar = 0;
 
 class Home extends StatelessWidget {
   const Home({Key key}) : super(key: key);
@@ -67,9 +75,6 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  
-  
-
   Widget getBody() {
     // if(selectedIndex == 0) {
     return MyHomePage();
@@ -91,6 +96,36 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final uri = "http://localhost:3000/Foods";
+  final HttpService httpService = HttpService();
+  var _foodsJson = [],_damJson=[],_beoJson=[],_xoJson=[],_vitaminJson=[];
+  void fetchFoods() async {
+    try {
+      final respone = await http.get(Uri.parse(uri));
+      final jsonData = jsonDecode(respone.body) as List;
+      // for(var x in jsonData){
+      //       var a=x["nutrition"];
+      //       var b="chất đạm";
+      //       var c="chất béo";
+      //       var d="chất xơ";
+            
+      //       if(a==b)  _damJson.add(x);
+      //       else if(a==c) _beoJson.add(x);
+      //       else if(a==d) _xoJson.add(x);
+      //       else {
+      //         _vitaminJson.add(x);
+      //         print("1");
+      //       }
+
+      //   }
+      setState(() {
+        _foodsJson = jsonData;
+        
+      });
+      
+    } catch (err) {}
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -146,7 +181,8 @@ class _MyHomePageState extends State<MyHomePage> {
                         decoration: BoxDecoration(
                             color: Colors.tealAccent,
                             border: Border.all(color: Colors.black26),
-                            borderRadius: BorderRadius.all(Radius.circular(20))),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20))),
                         margin: const EdgeInsets.symmetric(vertical: 2.0),
                         width: 80,
                         child: Center(
@@ -166,7 +202,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       width: 80,
                       child: Center(
                         child: Text(
-                          "All",
+                          "Chất đạm",
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -180,7 +216,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       width: 80,
                       child: Center(
                         child: Text(
-                          "All",
+                          "Chất béo",
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -194,7 +230,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       width: 80,
                       child: Center(
                         child: Text(
-                          "All",
+                          "Vitamin-Chất khoáng",
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -208,7 +244,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       width: 80,
                       child: Center(
                         child: Text(
-                          "All",
+                          "Chất xơ",
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -220,51 +256,45 @@ class _MyHomePageState extends State<MyHomePage> {
                 flex: 8,
                 child: TabBarView(
                   children: [
-                    Container(
-                        child: ListView(
-                      scrollDirection: Axis.vertical,
-                      children: <Widget>[
-                        OutlinedButton(
-                          child: Container(
-                            decoration: BoxDecoration(
-                                image: DecorationImage(
-                                    image: AssetImage("assets/buffet.png"),
-                                    fit: BoxFit.cover)),
-                            margin: const EdgeInsets.symmetric(vertical: 20.0),
-                            height: 300,
-                            child: Row(
-                              children: <Widget>[],
-                            ),
-                          ),
-                          onPressed: () {
-                            
-                          },
-                        ),
-                        OutlinedButton(
-                          child: Container(
-                              decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                      image: AssetImage("assets/buffet.png"),
-                                      fit: BoxFit.cover)),
-                              margin:
-                                  const EdgeInsets.symmetric(vertical: 20.0),
-                              height: 300),
-                          onPressed: () {},
-                        ),
-                        OutlinedButton(
-                          child: Container(
-                              decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                      image: AssetImage("assets/buffet.png"),
-                                      fit: BoxFit.cover)),
-                              margin:
-                                  const EdgeInsets.symmetric(vertical: 20.0),
-                              height: 300),
-                          onPressed: () {},
-                        )
-                      ],
-                    )),
-                    Center(child: Text("Transit")),
+                    Center(
+                        child: ListView.builder(
+                            scrollDirection: Axis.vertical,
+                            itemCount: _foodsJson.length,
+                            itemBuilder: (context, index) {
+                              var food = _foodsJson[index];
+                              return OutlinedButton(
+                                child: Container(
+                                  margin: const EdgeInsets.symmetric(vertical: 6.0),
+                                  child: Image.network(food["img"])),
+                                onPressed: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => MainFood(
+                                            food: food,
+                                          )));
+                                },
+                              );
+                            })),
+                    
+                    Center(
+                      child: Text("abcxys"),
+                      // child: ListView.builder(
+                      //       scrollDirection: Axis.vertical,
+                      //       itemCount: _damJson.length,
+                      //       itemBuilder: (context, index) {
+                      //         var food = _damJson[index];
+                      //         return OutlinedButton(
+                      //           child: Container(
+                      //             margin: const EdgeInsets.symmetric(vertical: 6.0),
+                      //             child: Image.network(food["img"])),
+                      //           onPressed: () {
+                      //             Navigator.of(context).push(MaterialPageRoute(
+                      //                 builder: (context) => MainFood(
+                      //                       food: food,
+                      //                     )));
+                      //           },
+                      //         );
+                      //       })
+                    ),
                     Center(child: Text("Bike")),
                     Center(child: Text("Transit")),
                     Center(child: Text("Bike"))
@@ -272,17 +302,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               )
             ]),
-
           ),
         ),
       )
     ]));
-
-    
   }
 
   void onTapHandler(int index) {
     setState(() {
+      fetchFoods();
       selectedIndexTabBar = index;
     });
   }

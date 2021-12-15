@@ -9,7 +9,7 @@ import 'package:row/main_food.dart';
 import 'package:row/welcome.dart';
 void main() {
   
-  runApp( const Home());
+  runApp(const LogIn());
 }
 
 
