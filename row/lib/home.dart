@@ -129,6 +129,13 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton:FloatingActionButton(
+        backgroundColor: Colors.blue,
+        child: Icon(
+          Icons.add,
+        ),
+        onPressed: (){},
+      ),
         body: Column(children: <Widget>[
       Expanded(
         flex: 1,

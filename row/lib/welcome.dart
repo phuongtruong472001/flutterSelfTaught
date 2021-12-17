@@ -2,31 +2,34 @@ import 'package:flutter/material.dart';
 import 'package:row/home.dart';
 
 class Welcome extends StatelessWidget {
-  const Welcome({Key key}) : super(key: key);
+  var userName;
+ Welcome({Key key,this.userName}) : super(key: key);
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'welcome our app !',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: WelcomePage(),
-    );
-  }
-}
-
-class WelcomePage extends StatefulWidget {
-  @override
-  _WelcomePageState createState() => _WelcomePageState();
-}
-
-class _WelcomePageState extends State<WelcomePage> {
-  @override
-  Widget build(BuildContext context) {
-    precacheImage(AssetImage("assets/buffet.png"), context);
     return Scaffold(
+      drawer: Drawer(
+        child: Column(children: <Widget>[
+          UserAccountsDrawerHeader(
+            accountName: Text(userName.toString()),
+             accountEmail: Text(userName.toString()),
+             currentAccountPicture: CircleAvatar(backgroundImage: AssetImage("assets/hello.png"),),
+             ),
+          ListTile(  
+              title: new Text("Primary"),  
+              leading: new Icon(Icons.inbox),  
+            ),  
+            ListTile(  
+              title: new Text("Social"),  
+              leading: new Icon(Icons.people),  
+            ),  
+            ListTile(  
+              title: new Text("Promotions"),  
+              leading: new Icon(Icons.local_offer),  
+            )  
+        ],),
+      ),
       appBar: AppBar(
         title: Text('Welcome'),
       ),

@@ -10,11 +10,11 @@ class AssetPlayerWidget extends StatefulWidget {
 
 class __AssetPlayerWidgetState extends State<AssetPlayerWidget> {
    VideoPlayerController _controller;
-  final asset = 'assets/music.mp4';
+  String asset ="https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4";
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.asset(asset)
+    _controller = VideoPlayerController.network(asset)
       ..initialize().then((_) {
         // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
         setState(() {});

@@ -4,9 +4,10 @@ import 'package:row/home.dart';
 import 'package:video_player/video_player.dart';
 
 import 'asset_player_widget.dart';
+import 'cook.dart';
 
 class MainFood extends StatelessWidget {
-  VideoPlayerController _controller;
+  
   var  food;
 
   MainFood({Key key, this.food}) : super(key: key);
@@ -119,7 +120,12 @@ class MainFood extends StatelessWidget {
                   child: FlatButton(
                     textColor: Colors.white,
                     color: Colors.black,
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => Cook(
+                                            food: food,
+                                          )));
+                    },
                     child: Text("Start cook !", style: TextStyle(fontSize: 20)),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),

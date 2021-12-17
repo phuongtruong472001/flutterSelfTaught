@@ -98,7 +98,7 @@ class _LogInPageState extends State<LogInPage> {
                         if (bloc.isValidInformation(_userController.text,
                             _passController.text)) {
                           Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => Welcome()));
+                              MaterialPageRoute(builder: (context) => Welcome(userName: _userController.text)));
                         }
                       },
                       color: Colors.blueAccent,
