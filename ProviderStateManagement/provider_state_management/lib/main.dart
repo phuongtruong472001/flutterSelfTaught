@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider.value(value: Drinks()),
         ChangeNotifierProvider.value(value: Cart()),
-        ChangeNotifierProvider.value(value: Orders()),
+        //ChangeNotifierProvider.value(value: Orders()),
         
       ],
       child: MaterialApp(

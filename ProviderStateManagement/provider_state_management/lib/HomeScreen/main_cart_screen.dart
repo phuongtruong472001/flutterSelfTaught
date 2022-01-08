@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:provider_state_management/HomeScreen/main_home_screen.dart';
 import 'package:provider_state_management/Providers/cart.dart';
+import 'package:provider_state_management/Providers/drinks.dart';
 import 'package:provider_state_management/Providers/orders.dart';
 import '../Widgets/cart_item.dart';
 
@@ -10,6 +11,7 @@ class CartScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final cartsData = Provider.of<Cart>(context);
     final carts = cartsData.items;
+    final drinks=Provider.of<Drinks>(context);
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(
@@ -53,6 +55,9 @@ class CartScreen extends StatelessWidget {
                     onPressed: () {
                       // Provider.of<Orders>(context, listen: false)
                       //     .addOrder(carts.values.toList(), cartsData.totalAmount);
+                      carts.forEach((key, drink) {
+                        drinks.removeItem(drink.id);
+                      });
                       cartsData.clear();
                     },
                   ),

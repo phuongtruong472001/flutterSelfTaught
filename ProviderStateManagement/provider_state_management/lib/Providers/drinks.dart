@@ -101,5 +101,10 @@ class Drinks extends ChangeNotifier{
     
     return [..._drinks];
   }
-   
+   void removeItem(String id){
+     for (var element in _drinks) { 
+       if(element.id==id) element.isChoose=false;
+     }
+     notifyListeners();
+   }
 }
