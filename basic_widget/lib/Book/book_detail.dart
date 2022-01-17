@@ -1,15 +1,14 @@
 // ignore_for_file: avoid_unnecessary_containers
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'book.dart';
 
 
-class BookDetail extends StatelessWidget {
-  late Book book;
 
-  BookDetail(this.book, {Key? key}) : super(key: key);
+class BookDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    bool _checkFavorite = false;
+    final book= Provider.of<Book>(context);
     return MaterialApp(
       title: book.name,
       home: Scaffold(
@@ -23,16 +22,12 @@ class BookDetail extends StatelessWidget {
             ),
             actions: <Widget>[
               IconButton(
-                icon: const Icon(Icons.favorite),
-                tooltip: 'Show Snackbar',
-                //color: _checkFavorite ? Colors.red :Colors.black12,
-
+                icon:  book.checkFavorite ? Icon(Icons.favorite,color:Colors.red):Icon(Icons.favorite_border) ,
+                tooltip: 'Favorite',
                 onPressed: () {
                   ScaffoldMessenger.of(context)
                       .showSnackBar(const SnackBar(content: Text('Favorite')));
-                  _checkFavorite = !_checkFavorite;
-                  color:
-                  _checkFavorite ? Colors.red : Colors.black12;
+                  
                 },
               ),
               IconButton(

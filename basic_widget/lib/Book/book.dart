@@ -1,8 +1,16 @@
 
-class Book{
-  late String img;
-  late String name;
-  late String author;
-  late String description;
-  Book(this.img,this.name,this.author,this.description);
+import 'package:flutter/cupertino.dart';
+
+class Book with ChangeNotifier{
+  final String img;
+  final String name;
+  final String author;
+  final String description;
+  bool checkFavorite;
+  Book({required this.img,required this.name,required this.author,required this.description,this.checkFavorite=false});
+  void toggleChangceFavoriteStatus(){
+    checkFavorite=!checkFavorite;
+    notifyListeners();
+  }
+
 }

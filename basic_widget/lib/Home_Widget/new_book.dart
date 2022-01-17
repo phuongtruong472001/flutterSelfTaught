@@ -1,7 +1,9 @@
 import 'package:basic_widget/Book/book.dart';
 import 'package:basic_widget/Book/book_detail.dart';
 import 'package:basic_widget/Book/book_infor.dart';
+import 'package:basic_widget/providers/books.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class NewBook extends StatelessWidget {
   List<Book> books; //= Book("sknnckan", "sbajasnm", "bsanmcm", "cbnmcm");
@@ -9,6 +11,7 @@ class NewBook extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final booksData=Provider.of<Books>(context).books;
     return ListView.builder(
       itemCount: books.length,
       itemBuilder: (context, index) {
