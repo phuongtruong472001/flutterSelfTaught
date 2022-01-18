@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shop_cart/model/shop.dart';
 import 'package:shop_cart/shop/bloc/shop_bloc.dart';
+import 'package:shop_cart/shop/bloc/shop_state.dart';
 import 'package:shop_cart/widgets/cart_item.dart';
 
 class ShoppingCart extends StatelessWidget {
@@ -26,11 +26,15 @@ class ShoppingCart extends StatelessWidget {
             },
           ),
         ),
-        floatingActionButton: TextButton(
-          onPressed: () {
-            cartItems.clear();
+        floatingActionButton: BlocBuilder<ShopBloc,ShopState>(
+          builder: (context, state) {
+            return TextButton(
+              onPressed: () {
+                cartItems.clear();
+              },
+              child: Text("${cartItems.getTotalAmount()} vnd"),
+            );
           },
-          child: Text("${cartItems.getTotalAmount()} vnd"),
         ),
         body: CartItem(cartItems: cartItems.carts));
   }

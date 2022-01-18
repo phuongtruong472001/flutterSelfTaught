@@ -2,13 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_cart/model/shop.dart';
 import 'package:shop_cart/shop/bloc/shop_bloc.dart';
+import 'package:shop_cart/shop/bloc/shop_state.dart';
+
 
 class CartItem extends StatelessWidget {
   final List<ShopItem> cartItems;
   CartItem({required this.cartItems});
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    return BlocBuilder<ShopBloc, ShopState>(
+      builder:(context,state){
+      
+      return ListView.builder(
         itemCount: cartItems.length,
         itemBuilder: (BuildContext context, int index) {
           ShopItem item = cartItems[index];
@@ -55,5 +60,6 @@ class CartItem extends StatelessWidget {
             ),
           );
         });
-  }
+  });
+}
 }
