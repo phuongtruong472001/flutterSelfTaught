@@ -3,32 +3,36 @@ import 'package:row/home.dart';
 
 class Welcome extends StatelessWidget {
   var userName;
- Welcome({Key key,this.userName}) : super(key: key);
+  Welcome({Key key, this.userName}) : super(key: key);
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: Drawer(
-        child: Column(children: <Widget>[
-          UserAccountsDrawerHeader(
-            accountName: Text(userName.toString()),
-             accountEmail: Text(userName.toString()),
-             currentAccountPicture: CircleAvatar(backgroundImage: AssetImage("assets/hello.png"),),
-             ),
-          ListTile(  
-              title: new Text("Primary"),  
-              leading: new Icon(Icons.inbox),  
-            ),  
-            ListTile(  
-              title: new Text("Social"),  
-              leading: new Icon(Icons.people),  
-            ),  
-            ListTile(  
-              title: new Text("Promotions"),  
-              leading: new Icon(Icons.local_offer),  
-            )  
-        ],),
+        child: Column(
+          children: <Widget>[
+            UserAccountsDrawerHeader(
+              accountName: Text(userName.toString()),
+              accountEmail: Text(userName.toString()),
+              currentAccountPicture: CircleAvatar(
+                backgroundImage: AssetImage("assets/hello.png"),
+              ),
+            ),
+            ListTile(
+              title: new Text("Primary"),
+              leading: new Icon(Icons.inbox),
+            ),
+            ListTile(
+              title: new Text("Social"),
+              leading: new Icon(Icons.people),
+            ),
+            ListTile(
+              title: new Text("Promotions"),
+              leading: new Icon(Icons.local_offer),
+            )
+          ],
+        ),
       ),
       appBar: AppBar(
         title: Text('Welcome'),

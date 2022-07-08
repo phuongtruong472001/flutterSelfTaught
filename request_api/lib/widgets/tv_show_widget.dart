@@ -19,7 +19,7 @@ class TVShowWidgetState extends State<TVShowWidget> {
     _isInit = false;
     super.didChangeDependencies();
   }
-
+  
   @override
   Widget build(BuildContext context) {
     final films = Provider.of<TVShow>(context).films;
