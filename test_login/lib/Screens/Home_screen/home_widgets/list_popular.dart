@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:test_login/Models/product.dart';
-import 'package:test_login/Screens/Home_screen/Products/detail_product.dart';
+
+import '../../../loaded.dart';
+import '../../Products/detail_product.dart';
 
 class ListPopular extends StatefulWidget {
   @override
@@ -9,19 +11,17 @@ class ListPopular extends StatefulWidget {
 }
 
 class ListPopularPage extends State<ListPopular> {
-  var _isInit = true;
-  @override
-  void didChangeDependencies() {
-    if (_isInit) {
-      Provider.of<Products>(context).fetchProduct();
-    }
-    _isInit = false;
-    super.didChangeDependencies();
-  }
 
   @override
   Widget build(BuildContext context) {
-    final listProducts = Provider.of<Products>(context).products;
+    final data = Provider.of<Products>(context);
+    final startApp = Provider.of<StartApp>(context);
+    
+    if (startApp.isGetData == false) {
+      data.fetchProduct();
+      startApp.getDataComplete();
+    }
+    final listProducts= data.products;
     return SizedBox(
       height: 800,
       child: GridView.builder(
@@ -39,12 +39,16 @@ class ListPopularPage extends State<ListPopular> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => DetailProduct(product: listProducts[index],)));
+                              builder: (context) => DetailProduct(
+                                    product: listProducts[index],
+                                  )));
                     },
                     child: SizedBox(
                       height: 100,
                       width: 100,
-                      child: Image.network(listProducts[index].imageLink),
+                      child: Hero(
+                          tag: listProducts[index],
+                          child: Image.network(listProducts[index].imageLink)),
                     ),
                   ),
                 ),

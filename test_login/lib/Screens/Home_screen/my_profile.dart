@@ -5,7 +5,9 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:test_login/Screens/Home_screen/home_widgets/list_favorie.dart';
 import 'package:test_login/Screens/Login/login_screen.dart';
+import 'package:test_login/Screens/YourOrders/your_orders.dart';
 
 GoogleSignIn _googleSignIn = GoogleSignIn(
   // Optional clientId
@@ -134,25 +136,6 @@ class MyProfilePage extends State<MyProfile> {
                         )
                       ]),
                     ),
-                    Expanded(
-                      flex: 1,
-                      child: Column(children: const [
-                        Text(
-                          "Favorite",
-                          style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.black,
-                              decoration: TextDecoration.none),
-                        ),
-                        Text(
-                          "2",
-                          style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.black,
-                              decoration: TextDecoration.none),
-                        )
-                      ]),
-                    )
                   ],
                 ),
               ),
@@ -171,6 +154,25 @@ class MyProfilePage extends State<MyProfile> {
                     children: [
                       Card(
                         child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ListFavorite()));
+                          },
+                          child: const ListTile(
+                              leading: Icon(
+                                Icons.favorite,
+                                color: Colors.red,
+                              ),
+                              title: Text('Favorites'),
+                              trailing: Icon(
+                                Icons.more_vert,
+                              )),
+                        ),
+                      ),
+                      Card(
+                        child: GestureDetector(
                           onTap: () {},
                           child: const ListTile(
                             leading: Icon(Icons.person),
@@ -181,7 +183,12 @@ class MyProfilePage extends State<MyProfile> {
                       ),
                       Card(
                         child: GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => YourOrders()));
+                          },
                           child: const ListTile(
                             leading: Icon(
                               Icons.shopping_cart,

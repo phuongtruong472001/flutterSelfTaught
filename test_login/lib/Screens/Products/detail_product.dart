@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:test_login/Models/product.dart';
 
 class DetailProduct extends StatefulWidget {
@@ -9,8 +10,11 @@ class DetailProduct extends StatefulWidget {
 }
 
 class DetailProductPage extends State<DetailProduct> {
+  int quantity = 1;
   @override
   Widget build(BuildContext context) {
+    final listFavorites = Provider.of<ListFavorites>(context);
+    final cartItems = Provider.of<Carts>(context);
     return SafeArea(
       child: Scaffold(
         backgroundColor: const Color.fromARGB(255, 223, 196, 205),
@@ -24,8 +28,17 @@ class DetailProductPage extends State<DetailProduct> {
                     Container(
                       child: IconButton(
                           onPressed: () {
-                            widget.product.checkFavorite = !widget.product.checkFavorite;
-                            print(widget.product.checkFavorite);
+                            setState(() {
+                              widget.product.checkFavorite =
+                                  !widget.product.checkFavorite;
+                              if (widget.product.checkFavorite == true) {
+                                listFavorites.addItem(widget.product);
+                              } else {
+                                listFavorites.removeItem(widget.product);
+                              }
+                              
+                            });
+                            // print(widget.product.checkFavorite);
                           },
                           icon: widget.product.checkFavorite
                               ? const Icon(Icons.favorite, color: Colors.red)
@@ -52,8 +65,10 @@ class DetailProductPage extends State<DetailProduct> {
               Container(
                 padding: const EdgeInsets.all(10),
                 height: 200,
-                child: Image.network(
-                  widget.product.imageLink,
+                child: Hero(tag: widget.product,
+                  child: Image.network(
+                    widget.product.imageLink,
+                  ),
                 ),
               ),
               Container(
@@ -68,7 +83,7 @@ class DetailProductPage extends State<DetailProduct> {
                   child: Column(
                     children: [
                       Text(
-                       widget. product.name,
+                        widget.product.name,
                         style: const TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 15),
                       ),
@@ -104,8 +119,14 @@ class DetailProductPage extends State<DetailProduct> {
                           child: Row(
                             children: [
                               IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(Icons.add)),
+                                  onPressed: () {
+                                    setState(() {
+                                      if (quantity > 1) {
+                                        quantity--;
+                                      }
+                                    });
+                                  },
+                                  icon: const Icon(Icons.minimize_outlined)),
                               Container(
                                 decoration: BoxDecoration(
                                     border: Border.all(
@@ -113,10 +134,16 @@ class DetailProductPage extends State<DetailProduct> {
                                   color: Colors.black,
                                 )),
                                 width: 20,
-                                child: const Center(child: Text("1")),
+                                child: Center(child: Text("$quantity")),
                               ),
                               IconButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    setState(() {
+                                      if (quantity < widget.product.quantity) {
+                                        quantity++;
+                                      }
+                                    });
+                                  },
                                   icon: const Icon(Icons.add)),
                             ],
                           ),
@@ -133,7 +160,10 @@ class DetailProductPage extends State<DetailProduct> {
                           height: 50,
                           width: 150,
                           child: TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              cartItems.addItem(Product(id: widget.product.id, name: widget.product.name, description: widget.product.description, imageLink: widget.product.imageLink, price: widget.product.price, brand: widget.product.brand, discount: widget.product.discount, quantity: quantity, sold: widget.product.sold, viewed: widget.product.viewed));
+                              
+                            },
                             child: const Text(
                               "ADD TO CART",
                               style: TextStyle(color: Colors.red),

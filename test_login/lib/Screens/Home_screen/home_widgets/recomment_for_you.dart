@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:test_login/loaded.dart';
 
 import '../../../Models/product.dart';
-import '../Products/detail_product.dart';
+import '../../Products/detail_product.dart';
+
 
 class RecommendForYou extends StatefulWidget {
   @override
@@ -10,19 +12,17 @@ class RecommendForYou extends StatefulWidget {
 }
 
 class RecommendForYouPage extends State<RecommendForYou> {
-  var _isInit = true;
-  @override
-  void didChangeDependencies() {
-    if (_isInit) {
-      Provider.of<Products>(context).fetchProduct();
-    }
-    _isInit = false;
-    super.didChangeDependencies();
-  }
 
   @override
   Widget build(BuildContext context) {
-    final listProducts = Provider.of<Products>(context).products;
+    final data = Provider.of<Products>(context);
+    final startApp = Provider.of<StartApp>(context);
+    
+    if (startApp.isGetData == false) {
+      data.fetchProduct();
+      startApp.getDataComplete();
+    }
+    final listProducts= data.products;
     return SizedBox(
       height: 120,
       child: ListView.builder(

@@ -6,7 +6,9 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:test_login/Animation/custom_page_route.dart';
 import 'package:test_login/Screens/Home_screen/home.dart';
+import 'package:test_login/Screens/SignUp/sign_up_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -28,23 +30,19 @@ class LoginScreenPage extends State<LoginScreen> {
   Map? userData;
   Future<void> signInWithGG() async {
     try {
-      print('hi');
-
       await _googleSignIn.signOut();
 
       await _googleSignIn.signIn();
       prefs = await SharedPreferences.getInstance();
-      print('h2');
+
       await prefs.setString('username', _currentUser?.displayName ?? "");
       await prefs.setInt('status', 2);
-      print(prefs.getString("username"));
+      print(prefs.getString(_currentUser?.displayName ?? ""));
       if (prefs.getString("username") != "") {
-        print('không vào đây à');
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => Home()));
       }
     } catch (e) {
-      print(e);
       EasyLoading.showError("Có lỗi xảy ra");
     }
   }
@@ -60,7 +58,7 @@ class LoginScreenPage extends State<LoginScreen> {
         userData = requestData;
         prefs = await SharedPreferences.getInstance();
         await prefs.setString('username', userData!["name"]);
-        print(prefs.getString("username"));
+        print(prefs.getString(userData!["name"]));
         await prefs.setInt('status', 1);
         EasyLoading.dismiss();
         if (prefs.getString("username") != null) {
@@ -195,14 +193,16 @@ class LoginScreenPage extends State<LoginScreen> {
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Row(
-                    children: const <Widget>[
-                      // Checkbox(
-                      //   value: checkRemmember,
-                      //   onChanged: (bool value) => setState(() {
-                      //       checkRemmember = value;
-                      //     }),,
-                      // ),
-                      Expanded(
+                    children: <Widget>[
+                      Checkbox(
+                        value: checkRemmember,
+                        onChanged: (bool? value) {
+                          setState(() {
+                            checkRemmember = !checkRemmember;
+                          });
+                        },
+                      ),
+                      const Expanded(
                           flex: 4,
                           child: Center(
                             child: Text(
@@ -213,11 +213,11 @@ class LoginScreenPage extends State<LoginScreen> {
                                   decoration: TextDecoration.none),
                             ),
                           )),
-                      Expanded(
+                      const Expanded(
                         flex: 2,
                         child: SizedBox(),
                       ),
-                      Expanded(
+                      const Expanded(
                           flex: 4,
                           child: Center(
                             child: Text(
@@ -304,7 +304,10 @@ class LoginScreenPage extends State<LoginScreen> {
                         child: Center(
                             child: Center(
                           child: TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.of(context).push(CustomPageRoute(
+                                  child: SignUpScreen()));
+                            },
                             child: const Text(
                               "Sign up ",
                               style: TextStyle(

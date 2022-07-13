@@ -41,7 +41,6 @@ class Product with ChangeNotifier {
         sold: json["sold"],
         viewed: json["viewed"]);
   }
-  
 }
 
 class Products with ChangeNotifier {
@@ -71,4 +70,102 @@ class Products with ChangeNotifier {
       print("lỗi rồi");
     }
   }
+}
+
+class ListFavorites with ChangeNotifier {
+  final List<Product> _products = [];
+  List<Product> get products {
+    return [..._products];
+  }
+
+  void addItem(Product item) {
+    _products.add(item);
+    notifyListeners();
+  }
+
+  void removeItem(Product item) {
+    _products.remove(item);
+    notifyListeners();
+  }
+}
+
+class Carts with ChangeNotifier {
+  Map<String, Product> _products = {};
+  Map<String, Product> get products {
+    return {..._products};
+  }
+
+  void addItem(Product item) {
+    // if (_products.containsKey(id)) {
+    //   _items.update(
+    //       id,
+    //       (existingCartItem) => CartItem(
+    //           id: existingCartItem.id,
+    //           title: existingCartItem.title,
+    //           quantity: existingCartItem.quantity + 1,
+    //           price: existingCartItem.price,
+    //           imgUrl: existingCartItem.imgUrl));
+    // } else {
+    _products.putIfAbsent(
+        item.id,
+        () => item);
+    //}
+    notifyListeners();
+  }
+
+  void addAmount(Product item) {
+    _products.update(
+        item.id,
+        (existingCartItem) => Product(
+        id:item.id ,
+        name: item.name,
+        description: item.description,
+        imageLink: item.imageLink,
+        brand: item.brand,
+        discount: item.discount,
+        price: item.price,
+        quantity: item.quantity+1,
+        sold: item.sold,
+        viewed:item.viewed ));
+    notifyListeners();
+  }
+
+  void less(Product item) {
+    _products.update(
+        item.id,
+        (existingCartItem) => Product(
+            id:item.id ,
+        name: item.name,
+        description: item.description,
+        imageLink: item.imageLink,
+        brand: item.brand,
+        discount: item.discount,
+        price: item.price,
+        quantity: item.quantity-1,
+        sold: item.sold,
+        viewed:item.viewed ));
+    notifyListeners();
+  }
+
+  void removeItem(String ProductId) {
+    _products.remove(ProductId);
+    notifyListeners();
+  }
+
+  void clear() {
+    _products = {};
+    notifyListeners();
+  }
+
+  // void toggleAddToCardStatus(String ProductId) {
+  //   _products.update(
+  //       ProductId,
+  //       (existingCartItem) => Product(
+  //           id: existingCartItem.id,
+  //           title: existingCartItem.title,
+  //           quantity: existingCartItem.quantity,
+  //           price: existingCartItem.price,
+  //           imageUrl: existingCartItem.imageUrl));
+  //   notifyListeners();
+  // }
 }

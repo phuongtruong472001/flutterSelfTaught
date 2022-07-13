@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
+import 'package:test_login/Models/bills.dart';
 import 'package:test_login/Models/category.dart';
 import 'package:test_login/Models/product.dart';
-import 'package:test_login/Screens/Home_screen/home.dart';
-import 'package:test_login/Screens/Login/login_screen.dart';
+import 'package:test_login/Screens/Profile/edit_profile.dart';
+import 'package:test_login/Screens/YourOrders/your_orders.dart';
+import 'package:test_login/loaded.dart';
 
-import 'Screens/Login/sign_in/sign_in_with_gg.dart';
-
-void main() {
+void main() async {
   runApp(const MyApp());
   configLoading();
 }
@@ -44,11 +43,59 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider.value(
             value: Products(),
           ),
+          ChangeNotifierProvider.value(
+            value: ListFavorites(),
+          ),
+          ChangeNotifierProvider.value(
+            value: Carts(),
+          ),
+          ChangeNotifierProvider.value(
+            value: ItemBills(),
+          ),
+          ChangeNotifierProvider.value(
+            value: StartApp(),
+          ),
         ],
         child: MaterialApp(
+          debugShowCheckedModeBanner: false,
           title: 'Flutter Demo',
-          home: Home(),
+          home: YourOrders(),
           builder: EasyLoading.init(),
         ));
   }
 }
+
+// class InitializerWidget extends StatefulWidget {
+//   @override
+//   _InitializerWidgetState createState() => _InitializerWidgetState();
+// }
+
+// class _InitializerWidgetState extends State<InitializerWidget> {
+//   late FirebaseAuth _auth;
+
+//   late User _user;
+
+//   bool isLoading = true;
+
+//   @override
+//   void initState() {
+//     // TODO: implement initState
+//     super.initState();
+//     _auth = FirebaseAuth.instance;
+//     _user = _auth.currentUser!;
+//     isLoading = false;
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return isLoading
+//         ? const Scaffold(
+//             body: Center(
+//               child: CircularProgressIndicator(),
+//             ),
+//           )
+//         : _user == null
+//             ? LoginScreen()
+//             : Home();
+//   }
+// }

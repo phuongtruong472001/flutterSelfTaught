@@ -10,6 +10,7 @@ class MyHome extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
             color: Colors.grey,
@@ -35,33 +36,27 @@ class MyHome extends StatelessWidget {
             ),
           ),
           Container(
-              padding: EdgeInsets.all(5),
+              padding: const EdgeInsets.all(10),
               height: 50,
-              child: const Center(
-                child: Text(
-                  "CATEGORIES",
-                  textAlign: TextAlign.right,
-                ),
+              child: const Text(
+                "CATEGORIES",
+                textAlign: TextAlign.left,
               )),
           ListCategories(),
           Container(
-              padding: EdgeInsets.all(5),
+              padding: const EdgeInsets.all(10),
               height: 50,
-              child: const Center(
-                child: Text(
-                  "RECOMMEND FOR YOU",
-                  textAlign: TextAlign.right,
-                ),
+              child: const Text(
+                "RECOMMEND FOR YOU",
+                textAlign: TextAlign.right,
               )),
           RecommendForYou(),
           Container(
-              padding: EdgeInsets.all(5),
+              padding: const EdgeInsets.all(10),
               height: 50,
-              child: const Center(
-                child: Text(
-                  "POPULAR PRODUCT",
-                  textAlign: TextAlign.right,
-                ),
+              child: const Text(
+                "POPULAR PRODUCT",
+                textAlign: TextAlign.right,
               )),
           ListPopular(),
         ],
