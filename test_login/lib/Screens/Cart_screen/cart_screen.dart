@@ -4,12 +4,12 @@ import 'package:test_login/Screens/Pay/pay_screen.dart';
 
 import '../../Models/product.dart';
 
-class CartSreen extends StatefulWidget {
+class CartScreen extends StatefulWidget {
   @override
   CartScreenPage createState() => CartScreenPage();
 }
 
-class CartScreenPage extends State<CartSreen> {
+class CartScreenPage extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
     final cartItems = Provider.of<Carts>(context);

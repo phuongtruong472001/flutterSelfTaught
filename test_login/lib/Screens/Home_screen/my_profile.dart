@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:test_login/Screens/Home_screen/home_widgets/list_favorie.dart';
@@ -24,23 +25,17 @@ class MyProfile extends StatefulWidget {
 }
 
 class MyProfilePage extends State<MyProfile> {
-  String username = "";
+  final box = GetStorage();
 
   @override
   void initState() {
     super.initState();
-    loadUserName();
-  }
-
-  void loadUserName() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      username = (prefs.getString("username") ?? "");
-    });
   }
 
   @override
   Widget build(BuildContext context) {
+    String username = box.read("username");
+    int optionLogin = box.read("status");
     return Scaffold(
       body: Container(
         padding: const EdgeInsets.all(5),
@@ -213,36 +208,33 @@ class MyProfilePage extends State<MyProfile> {
                 height: 50,
                 width: 200,
                 child: TextButton(
-                  onPressed: () async {
-                    SharedPreferences prefs =
-                        await SharedPreferences.getInstance();
+                  onPressed: () {
                     EasyLoading.show(status: "Đang đăng xuất ");
-                    int? status = prefs.getInt("status");
-                    if (status == 1) {
+                    if (optionLogin == 1) {
                       FacebookAuth.instance.logOut().then((value) {
-                        setState(() {
-                           
-                          prefs.remove("username");
-                          print(prefs.getString("username"));
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => LoginScreen()));
-                        });
+                        box.remove("username");
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LoginScreen()));
                       });
-                    } else if (status == 2) {
-
-                      print(prefs.getString("username"));
+                    } else if (optionLogin == 2) {
                       _googleSignIn.disconnect();
 
-                      prefs.remove("username");
-                      print(prefs.getString("username"));
+                      box.remove("username");
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => LoginScreen()));
+                    } else if (optionLogin == 0) {
+                      box.remove("username");
+
                       Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => LoginScreen()));
                     }
-
+                    print(box.read("username"));
                     EasyLoading.dismiss();
                   },
                   child: const Text(

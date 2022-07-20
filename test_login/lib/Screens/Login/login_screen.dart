@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:test_login/Animation/custom_page_route.dart';
@@ -27,19 +28,18 @@ GoogleSignIn _googleSignIn = GoogleSignIn(
 
 class LoginScreenPage extends State<LoginScreen> {
   GoogleSignInAccount? _currentUser;
-  late SharedPreferences prefs;
+  final box = GetStorage();
   Map? userData;
   Future<void> signInWithGG() async {
     try {
       await _googleSignIn.signOut();
 
       await _googleSignIn.signIn();
-      prefs = await SharedPreferences.getInstance();
 
-      await prefs.setString('username', _currentUser?.displayName ?? "");
-      await prefs.setInt('status', 2);
-      print(prefs.getString(_currentUser?.displayName ?? ""));
-      if (prefs.getString("username") != "") {
+      box.write('username', _currentUser?.displayName ?? "");
+      box.write('status', 2);
+      print(_currentUser?.displayName);
+      if (_currentUser?.displayName != "") {
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => Home()));
       }
@@ -57,12 +57,12 @@ class LoginScreenPage extends State<LoginScreen> {
         final requestData =
             await FacebookAuth.i.getUserData(fields: "email,name");
         userData = requestData;
-        prefs = await SharedPreferences.getInstance();
-        await prefs.setString('username', userData!["name"]);
+
+        box.write('username', userData!["name"]);
         print(userData);
-        await prefs.setInt('status', 1);
+        box.write('status', 1);
         EasyLoading.dismiss();
-        if (prefs.getString("username") != null) {
+        if (userData!["name"] != null) {
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => Home()));
         }
@@ -81,6 +81,8 @@ class LoginScreenPage extends State<LoginScreen> {
       for (var doc in querySnapshot.docs) {
         if ((doc["email"] == email) && (doc["password"] == password)) {
           isCorrect = true;
+          box.write("username", doc["name"]);
+          box.write('status', 0);
         }
       }
     });

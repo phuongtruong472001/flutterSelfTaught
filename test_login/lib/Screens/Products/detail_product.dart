@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:test_login/Models/product.dart';
 
+import '../Cart_screen/badge.dart';
 import '../Cart_screen/cart_screen.dart';
 
 class DetailProduct extends StatefulWidget {
@@ -52,19 +53,18 @@ class DetailProductPage extends State<DetailProduct> {
                     ),
                     Container(
                       alignment: Alignment.centerRight,
-                      child: IconButton(
-                        icon: const Icon(
-                          Icons.shopping_cart,
-                          color: Colors.blue,
-                        ),
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => CartSreen()));
-                        },
-                      ),
-                    ),
+                      child: Consumer<Carts>(
+                      builder: (_, cart, ch) => Badge(
+                          value: cart.itemCount.toString(),
+                          child: IconButton(
+                              icon: const Icon(Icons.shopping_cart),
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => CartScreen()));
+                              })),
+                    )),
                     IconButton(
                       onPressed: () {
                         Navigator.pop(context);

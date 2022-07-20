@@ -20,20 +20,15 @@ class PayScreen extends StatefulWidget {
 
 class PayScreenPage extends State<PayScreen> {
   final box = GetStorage();
-  String username = "";
+  
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    loadUserName();
+    
   }
 
-  void loadUserName() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      username = (prefs.getString("username") ?? "");
-    });
-  }
+  
 
   Future<void> createArea(List<ItemBill> items,String phone,String address) async {
     String url = API().api_bill;
@@ -72,6 +67,8 @@ class PayScreenPage extends State<PayScreen> {
     final cartItems = Provider.of<Carts>(context);
     String address = box.read("address") ?? "";
     String phone = box.read("phone") ?? "";
+    String username = box.read("username")??"";
+    
     final snackBar = SnackBar(
       content: const Text('Order completed !'),
       action: SnackBarAction(
@@ -238,7 +235,7 @@ class PayScreenPage extends State<PayScreen> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => CartSreen()));
+                                        builder: (context) => CartScreen()));
                               },
                             ))
                       ],
