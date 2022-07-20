@@ -11,24 +11,26 @@ class ListPopular extends StatefulWidget {
 }
 
 class ListPopularPage extends State<ListPopular> {
-
   @override
   Widget build(BuildContext context) {
     final data = Provider.of<Products>(context);
     final startApp = Provider.of<StartApp>(context);
-    
+
     if (startApp.isGetData == false) {
       data.fetchProduct();
       startApp.getDataComplete();
     }
-    final listProducts= data.products;
+    final listProducts = data.products;
     return SizedBox(
-      height: 800,
+      height: (listProducts.length + 1) * 200 / 2,
       child: GridView.builder(
-        scrollDirection: Axis.vertical,
+        //scrollDirection: Axis.vertical,
+        physics: const NeverScrollableScrollPhysics(),
         itemCount: listProducts.length,
         itemBuilder: (BuildContext context, int index) {
-          return SizedBox(
+          return Container(
+            decoration: BoxDecoration(
+                border: Border.all(width: 1, color: Colors.black12)),
             height: 120,
             child: Column(
               children: [

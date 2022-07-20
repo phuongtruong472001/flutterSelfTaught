@@ -3,7 +3,13 @@ import 'package:flutter/material.dart';
 class DetailOrder extends StatelessWidget {
   final itemBills;
   int Total;
-  DetailOrder({required this.itemBills, required this.Total});
+  String address;
+  String phone;
+  DetailOrder(
+      {required this.itemBills,
+      required this.Total,
+      required this.address,
+      required this.phone});
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -33,7 +39,9 @@ class DetailOrder extends StatelessWidget {
                     ],
                   ),
                 ),
-                SizedBox(
+                Container(
+                  decoration: BoxDecoration(
+                      border: Border.all(width: 1, color: Colors.black12)),
                   height: MediaQuery.of(context).size.height * 0.6,
                   width: MediaQuery.of(context).size.width,
                   child: ListView.builder(
@@ -62,7 +70,7 @@ class DetailOrder extends StatelessWidget {
                                 children: [
                                   SizedBox(
                                       width: MediaQuery.of(context).size.width *
-                                          0.7,
+                                          0.5,
                                       child: Text(
                                         itemBills[index]["name"],
                                         overflow: TextOverflow.ellipsis,
@@ -86,28 +94,89 @@ class DetailOrder extends StatelessWidget {
                 ),
                 SizedBox(
                   height: 50,
-                  child: Row(
-                    children: [
-                      const Expanded(
-                        flex: 1,
-                        child: Text(
-                          "Total bill",
-                          textAlign: TextAlign.left,
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 10, right: 10),
+                    child: Row(
+                      children: [
+                        const Expanded(
+                          flex: 1,
+                          child: Text(
+                            "Total bill",
+                            textAlign: TextAlign.left,
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
                         ),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: Container(
-                          alignment: Alignment.centerRight,
-                          child: Text(Total.toString(),
-                              textAlign: TextAlign.left,
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black)),
+                        Expanded(
+                          flex: 1,
+                          child: Container(
+                            alignment: Alignment.centerRight,
+                            child: Text(Total.toString(),
+                                textAlign: TextAlign.left,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black)),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 50,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 10, right: 10),
+                    child: Row(
+                      children: [
+                        const Expanded(
+                          flex: 1,
+                          child: Text(
+                            "Address",
+                            textAlign: TextAlign.left,
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
                         ),
-                      )
-                    ],
+                        Expanded(
+                          flex: 2,
+                          child: Container(
+                            alignment: Alignment.centerRight,
+                            child: Text(address,
+                                textAlign: TextAlign.left,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black)),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 50,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 10, right: 10),
+                    child: Row(
+                      children: [
+                        const Expanded(
+                          flex: 1,
+                          child: Text(
+                            "Phone number",
+                            textAlign: TextAlign.left,
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: Container(
+                            alignment: Alignment.centerRight,
+                            child: Text(phone,
+                                textAlign: TextAlign.left,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black)),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ]),

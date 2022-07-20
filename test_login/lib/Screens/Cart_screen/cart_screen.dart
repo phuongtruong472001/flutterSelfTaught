@@ -135,6 +135,35 @@ class CartScreenPage extends State<CartSreen> {
                 ),
               ),
               Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: SizedBox(
+                  height: 50,
+                  child: Row(
+                    children: [
+                      const Expanded(
+                        flex: 1,
+                        child: Text(
+                          "Total bill",
+                          textAlign: TextAlign.left,
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          alignment: Alignment.centerRight,
+                          child: Text(cartItems.totalAmount.toString(),
+                              textAlign: TextAlign.left,
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black)),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
                 padding: const EdgeInsets.only(right: 20),
                 child: Container(
                   decoration: BoxDecoration(

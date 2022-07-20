@@ -58,8 +58,8 @@ class Products with ChangeNotifier {
     String url = API().api_product;
     try {
       // EasyLoading.show(status: "Đang lấy thông tin ");
-      final respone = await http.get(Uri.parse(url));
-      final listproducts = convert.jsonDecode(respone.body);
+      final response = await http.get(Uri.parse(url));
+      final listproducts = convert.jsonDecode(convert.utf8.decode(response.bodyBytes));
       for (var element in listproducts) {
         _products.add(Product.fromJson(element));
       }
@@ -150,6 +150,13 @@ class Carts with ChangeNotifier {
   void removeItem(String ProductId) {
     _products.remove(ProductId);
     notifyListeners();
+  }
+  int get totalAmount {
+    int total = 0;
+    _products.forEach((key, item) {
+      total += item.price * item.quantity;
+    });
+    return total;
   }
 
   void clear() {

@@ -47,8 +47,12 @@ class UnpaidPage extends State<Unpaid> {
               onTap: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) =>
-                          DetailOrder(itemBills: listItems[index].items,Total: total,))),
+                      builder: (context) => DetailOrder(
+                            itemBills: listItems[index].items,
+                            Total: total,
+                            address: listItems[index].address,
+                            phone: listItems[index].phone,
+                          ))),
               child: Container(
                 padding: const EdgeInsets.all(5),
                 decoration: BoxDecoration(
@@ -151,7 +155,7 @@ class UnpaidPage extends State<Unpaid> {
                             flex: 1,
                             child: Container(
                               alignment: Alignment.centerRight,
-                              child: const Text("Change",
+                              child: const Text("Processing",
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,

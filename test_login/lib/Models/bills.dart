@@ -20,10 +20,12 @@ class ItemBill {
 
 class Bill {
   String id;
+  String address;
+  String phone;
   var items;
-  Bill({required this.id, required this.items});
+  Bill({required this.id, required this.items, required this.address, required this.phone});
   factory Bill.fromJson(Map<String, dynamic> json) {
-    return Bill(id: json["id"], items: json["product"]);
+    return Bill(id: json["id"], items: json["product"],address: json["address"],phone: json["phone"]);
   }
 }
 
@@ -33,12 +35,22 @@ class ItemBills with ChangeNotifier {
     return [..._bills];
   }
 
+  // String _phone = "", _address = "";
+  // String get phone {
+  //   return _phone;
+  // }
+
+  // String get address {
+  //   return _address;
+  // }
+
   Future<void> fetchBillItems() async {
     String url = API().api_bill;
     try {
       // EasyLoading.show(status: "Đang lấy thông tin ");
-      final respone = await http.get(Uri.parse(url));
-      final listproducts = convert.jsonDecode(respone.body);
+      final response = await http.get(Uri.parse(url));
+      var listproducts = convert.jsonDecode(convert.utf8.decode(response.bodyBytes));
+      //listproducts = listproducts["product"];
       for (var element in listproducts) {
         _bills.add(Bill.fromJson(element));
         // print(element);

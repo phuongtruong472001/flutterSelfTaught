@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -58,7 +59,7 @@ class LoginScreenPage extends State<LoginScreen> {
         userData = requestData;
         prefs = await SharedPreferences.getInstance();
         await prefs.setString('username', userData!["name"]);
-        print(prefs.getString(userData!["name"]));
+        print(userData);
         await prefs.setInt('status', 1);
         EasyLoading.dismiss();
         if (prefs.getString("username") != null) {
@@ -71,9 +72,25 @@ class LoginScreenPage extends State<LoginScreen> {
     }
   }
 
+  Future<bool> checkAccount(String email, String password) async {
+    bool isCorrect = false;
+    await FirebaseFirestore.instance
+        .collection('users')
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      for (var doc in querySnapshot.docs) {
+        if ((doc["email"] == email) && (doc["password"] == password)) {
+          isCorrect = true;
+        }
+      }
+    });
+    return isCorrect;
+  }
+
   @override
   void initState() {
     super.initState();
+
     setState(() {
       _currentUser = _googleSignIn.currentUser;
     });
@@ -83,6 +100,9 @@ class LoginScreenPage extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController email = TextEditingController();
+    TextEditingController password = TextEditingController();
+
     bool checkRemmember = false;
 
     return SafeArea(
@@ -167,6 +187,7 @@ class LoginScreenPage extends State<LoginScreen> {
                 margin: const EdgeInsets.only(left: 40, right: 40),
                 height: 50,
                 child: TextField(
+                  controller: email,
                   decoration: InputDecoration(
                       hintText: 'Email',
                       labelText: "Enter your email",
@@ -181,6 +202,8 @@ class LoginScreenPage extends State<LoginScreen> {
                 margin: const EdgeInsets.only(left: 40, right: 40),
                 height: 50,
                 child: TextField(
+                  controller: password,
+                  obscureText: true,
                   decoration: InputDecoration(
                       hintText: 'Password',
                       labelText: "Enter your password",
@@ -239,13 +262,25 @@ class LoginScreenPage extends State<LoginScreen> {
                     color: const Color.fromARGB(255, 102, 227, 141),
                     disabledColor: const Color.fromARGB(255, 214, 155, 53),
                     borderRadius: BorderRadius.circular(30),
-                    onPressed: () {
-                      //_handleSignOut();
-                      EasyLoading.show(status: "Đang đăng nhập,vui lòng đợi ");
-
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Home()));
-                      EasyLoading.dismiss();
+                    onPressed: () async {
+                      if (await checkAccount(
+                              email.text.trim(), password.text.trim()) ==
+                          true) {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => Home()));
+                      } else {
+                        final snackBar = SnackBar(
+                          content: const Text(
+                              "Tài khoản hoặc mật khẩu không chính xác "),
+                          action: SnackBarAction(
+                            label: 'Ok',
+                            onPressed: () {
+                              // Some code to undo the change.
+                            },
+                          ),
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      }
                     },
                     child: const Text(
                       "Continue",
@@ -305,8 +340,8 @@ class LoginScreenPage extends State<LoginScreen> {
                             child: Center(
                           child: TextButton(
                             onPressed: () {
-                              Navigator.of(context).push(CustomPageRoute(
-                                  child: SignUpScreen()));
+                              Navigator.of(context)
+                                  .push(CustomPageRoute(child: SignUpScreen()));
                             },
                             child: const Text(
                               "Sign up ",

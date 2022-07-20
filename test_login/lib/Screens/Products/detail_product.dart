@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:test_login/Models/product.dart';
 
+import '../Cart_screen/cart_screen.dart';
+
 class DetailProduct extends StatefulWidget {
   Product product;
   DetailProduct({Key? key, required this.product}) : super(key: key);
@@ -36,7 +38,6 @@ class DetailProductPage extends State<DetailProduct> {
                               } else {
                                 listFavorites.removeItem(widget.product);
                               }
-                              
                             });
                             // print(widget.product.checkFavorite);
                           },
@@ -47,6 +48,22 @@ class DetailProductPage extends State<DetailProduct> {
                                   color: Colors.white,
                                 )),
                       alignment: Alignment.centerRight,
+                      padding: const EdgeInsets.only(right: 40),
+                    ),
+                    Container(
+                      alignment: Alignment.centerRight,
+                      child: IconButton(
+                        icon: const Icon(
+                          Icons.shopping_cart,
+                          color: Colors.blue,
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => CartSreen()));
+                        },
+                      ),
                     ),
                     IconButton(
                       onPressed: () {
@@ -65,7 +82,8 @@ class DetailProductPage extends State<DetailProduct> {
               Container(
                 padding: const EdgeInsets.all(10),
                 height: 200,
-                child: Hero(tag: widget.product,
+                child: Hero(
+                  tag: widget.product,
                   child: Image.network(
                     widget.product.imageLink,
                   ),
@@ -161,8 +179,17 @@ class DetailProductPage extends State<DetailProduct> {
                           width: 150,
                           child: TextButton(
                             onPressed: () {
-                              cartItems.addItem(Product(id: widget.product.id, name: widget.product.name, description: widget.product.description, imageLink: widget.product.imageLink, price: widget.product.price, brand: widget.product.brand, discount: widget.product.discount, quantity: quantity, sold: widget.product.sold, viewed: widget.product.viewed));
-                              
+                              cartItems.addItem(Product(
+                                  id: widget.product.id,
+                                  name: widget.product.name,
+                                  description: widget.product.description,
+                                  imageLink: widget.product.imageLink,
+                                  price: widget.product.price,
+                                  brand: widget.product.brand,
+                                  discount: widget.product.discount,
+                                  quantity: quantity,
+                                  sold: widget.product.sold,
+                                  viewed: widget.product.viewed));
                             },
                             child: const Text(
                               "ADD TO CART",

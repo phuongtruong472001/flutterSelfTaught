@@ -221,6 +221,7 @@ class MyProfilePage extends State<MyProfile> {
                     if (status == 1) {
                       FacebookAuth.instance.logOut().then((value) {
                         setState(() {
+                           
                           prefs.remove("username");
                           print(prefs.getString("username"));
                           Navigator.push(
@@ -230,6 +231,8 @@ class MyProfilePage extends State<MyProfile> {
                         });
                       });
                     } else if (status == 2) {
+
+                      print(prefs.getString("username"));
                       _googleSignIn.disconnect();
 
                       prefs.remove("username");
