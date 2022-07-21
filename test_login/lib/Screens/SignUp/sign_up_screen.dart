@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:test_login/Animation/custom_page_route.dart';
 import 'package:test_login/Screens/Login/login_screen.dart';
 
 import '../../sevice.dart';
@@ -41,7 +42,9 @@ class SignUpScreenPage extends State<SignUpScreen> {
                         child: IconButton(
                           icon: const Icon(Icons.arrow_back_ios),
                           onPressed: () {
-                            Navigator.pop(context);
+                            Navigator.of(context).push(CustomPageRoute(
+                                child: LoginScreen(),
+                                direction: AxisDirection.left));
                           },
                         ),
                       ),
@@ -266,10 +269,9 @@ class SignUpScreenPage extends State<SignUpScreen> {
                           child: Center(
                         child: TextButton(
                           onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => LoginScreen()));
+                            Navigator.of(context).push(CustomPageRoute(
+                                child: LoginScreen(),
+                                direction: AxisDirection.left));
                           },
                           child: const Text(
                             "Sign in ",

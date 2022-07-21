@@ -268,8 +268,7 @@ class LoginScreenPage extends State<LoginScreen> {
                       if (await checkAccount(
                               email.text.trim(), password.text.trim()) ==
                           true) {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => Home()));
+                        Navigator.of(context).push(CustomPageRoute(child: Home(),direction: AxisDirection.right));
                       } else {
                         final snackBar = SnackBar(
                           content: const Text(
@@ -343,7 +342,7 @@ class LoginScreenPage extends State<LoginScreen> {
                           child: TextButton(
                             onPressed: () {
                               Navigator.of(context)
-                                  .push(CustomPageRoute(child: SignUpScreen()));
+                                  .push(CustomPageRoute(child: SignUpScreen(),direction: AxisDirection.right));
                             },
                             child: const Text(
                               "Sign up ",
