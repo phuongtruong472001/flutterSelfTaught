@@ -1,27 +1,23 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:provider/provider.dart';
-import 'package:test_login/Models/bills.dart';
-import 'package:test_login/Models/category.dart';
-import 'package:test_login/Models/product.dart';
+import 'package:test_login/Screens/Home_screen/bloc/home_bloc.dart';
 import 'package:test_login/Screens/Home_screen/home.dart';
 import 'package:test_login/Screens/Login/login_screen.dart';
-import 'package:test_login/Screens/Profile/edit_address.dart';
-import 'package:test_login/Screens/Profile/edit_profile.dart';
-import 'package:test_login/Screens/SignUp/sign_up_screen.dart';
-import 'package:test_login/Screens/YourOrders/your_orders.dart';
-import 'package:test_login/loaded.dart';
-import 'package:test_login/sevice.dart';
+import 'package:test_login/shopping_resposity.dart';
+import 'package:test_login/simple_bloc_obsever.dart';
+
+import 'Screens/Cart_screen/bloc/cart_bloc.dart';
 
 void main() async {
+  Bloc.observer = SimpleBlocObserver();
   await GetStorage.init();
   //await Firebase.initializeApp();
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(const MyApp());
+  // WidgetsFlutterBinding.ensureInitialized();
+  // await Firebase.initializeApp();
+  runApp( MyApp(shoppingRepository: ShoppingRepository(),));
   configLoading();
 }
 
@@ -42,79 +38,30 @@ void configLoading() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
+  const MyApp({Key? key,required this.shoppingRepository}) : super(key: key);
+  final ShoppingRepository shoppingRepository;
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-        providers: [
-          ChangeNotifierProvider.value(
-            value: Categories(),
-          ),
-          ChangeNotifierProvider.value(
-            value: Products(),
-          ),
-          ChangeNotifierProvider.value(
-            value: ListFavorites(),
-          ),
-          ChangeNotifierProvider.value(
-            value: Carts(),
-          ),
-          ChangeNotifierProvider.value(
-            value: ItemBills(),
-          ),
-          ChangeNotifierProvider.value(
-            value: StartApp(),
-          ),
-          Provider<AuthService>(
-            create: (_) => AuthService(FirebaseAuth.instance),
-          ),
-          // StreamProvider(
-          //   create: (context) => context.read<AuthService>().authStateChanges,
-          //   initialData: null,
-          // ),
-        ],
-        child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'Flutter Demo',
-          home: LoginScreen(),
-          builder: EasyLoading.init(),
-        ));
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (_) => HomeBloc(
+            shoppingRepository: shoppingRepository,
+          )..add(HomeStarted()),
+        ),
+        BlocProvider(
+          create: (_) => CartBloc(
+            shoppingRepository: shoppingRepository,
+          )..add(CartStarted()),
+        )
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter Demo',
+        home: Home(),
+        builder: EasyLoading.init(),
+      ),
+    );
   }
 }
-
-// class InitializerWidget extends StatefulWidget {
-//   @override
-//   _InitializerWidgetState createState() => _InitializerWidgetState();
-// }
-
-// class _InitializerWidgetState extends State<InitializerWidget> {
-//   late FirebaseAuth _auth;
-
-//   late User _user;
-
-//   bool isLoading = true;
-
-//   @override
-//   void initState() {
-//     // TODO: implement initState
-//     super.initState();
-//     _auth = FirebaseAuth.instance;
-//     _user = _auth.currentUser!;
-//     isLoading = false;
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return isLoading
-//         ? const Scaffold(
-//             body: Center(
-//               child: CircularProgressIndicator(),
-//             ),
-//           )
-//         : _user == null
-//             ? LoginScreen()
-//             : Home();
-//   }
-// }

@@ -7,7 +7,6 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:test_login/Animation/custom_page_route.dart';
 import 'package:test_login/Screens/Home_screen/home.dart';
 import 'package:test_login/Screens/SignUp/sign_up_screen.dart';
@@ -36,7 +35,10 @@ class LoginScreenPage extends State<LoginScreen> {
 
       await _googleSignIn.signIn();
 
-      box.write('username', _currentUser?.displayName ?? "");
+      box.write(
+        'username',
+        _currentUser?.displayName,
+      );
       box.write('status', 2);
       print(_currentUser?.displayName);
       if (_currentUser?.displayName != "") {
@@ -268,7 +270,8 @@ class LoginScreenPage extends State<LoginScreen> {
                       if (await checkAccount(
                               email.text.trim(), password.text.trim()) ==
                           true) {
-                        Navigator.of(context).push(CustomPageRoute(child: Home(),direction: AxisDirection.right));
+                        Navigator.of(context).push(CustomPageRoute(
+                            child: Home(), direction: AxisDirection.right));
                       } else {
                         final snackBar = SnackBar(
                           content: const Text(
@@ -341,8 +344,9 @@ class LoginScreenPage extends State<LoginScreen> {
                             child: Center(
                           child: TextButton(
                             onPressed: () {
-                              Navigator.of(context)
-                                  .push(CustomPageRoute(child: SignUpScreen(),direction: AxisDirection.right));
+                              Navigator.of(context).push(CustomPageRoute(
+                                  child: SignUpScreen(),
+                                  direction: AxisDirection.right));
                             },
                             child: const Text(
                               "Sign up ",

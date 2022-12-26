@@ -1,25 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:test_login/Models/product.dart';
 
 import '../../Products/detail_product.dart';
 
-class ListFavorite extends StatefulWidget {
-  @override
-  ListFavoritePage createState() => ListFavoritePage();
-}
+class ListFavorite extends StatelessWidget {
+  List<Product> listFavorite;
 
-class ListFavoritePage extends State<ListFavorite> {
+  ListFavorite({required this.listFavorite, Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final listFavorite = Provider.of<ListFavorites>(context).products;
     return Scaffold(
       appBar: AppBar(title: const Text("Your Favorie")),
       body: SizedBox(
         height: 800,
         child: GridView.builder(
           scrollDirection: Axis.vertical,
+          shrinkWrap: true,
           itemCount: listFavorite.length,
+          physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (BuildContext context, int index) {
             return SizedBox(
               height: 120,
@@ -39,12 +37,18 @@ class ListFavoritePage extends State<ListFavorite> {
                       child: SizedBox(
                         height: 100,
                         width: 100,
-                        child: Hero(tag :listFavorite[index],child: Image.network(listFavorite[index].imageLink)),
+                        child: Hero(
+                            tag: listFavorite[index],
+                            child: Image.network(
+                              listFavorite[index].imageLink,
+                            )),
                       ),
                     ),
                   ),
-                  Text(listFavorite[index].name),
-                  Text("\$ " + listFavorite[index].price.toString()),
+                  Text(
+                    listFavorite[index].name,
+                  ),
+                  Text("\$ ${listFavorite[index].price}"),
                   Padding(
                     padding: const EdgeInsets.only(left: 60),
                     child: Row(

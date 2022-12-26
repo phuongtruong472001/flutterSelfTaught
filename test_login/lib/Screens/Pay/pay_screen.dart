@@ -1,17 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+import 'package:test_login/API/api.dart';
 import 'package:test_login/Screens/Cart_screen/cart_screen.dart';
 import 'package:test_login/Screens/Profile/edit_address.dart';
 import 'package:test_login/Screens/YourOrders/your_orders.dart';
 
 import '../../Models/bills.dart';
-import '../../Models/product.dart';
-
-import 'package:http/http.dart' as http;
-import 'package:test_login/API/api.dart';
 
 class PayScreen extends StatefulWidget {
   @override
@@ -20,17 +16,15 @@ class PayScreen extends StatefulWidget {
 
 class PayScreenPage extends State<PayScreen> {
   final box = GetStorage();
-  
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    
   }
 
-  
-
-  Future<void> createArea(List<ItemBill> items,String phone,String address) async {
+  Future<void> createArea(
+      List<ItemBill> items, String phone, String address) async {
     String url = API().api_bill;
 
     try {
@@ -64,11 +58,11 @@ class PayScreenPage extends State<PayScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final cartItems = Provider.of<Carts>(context);
-    String address = box.read("address") ?? "";
-    String phone = box.read("phone") ?? "";
-    String username = box.read("username")??"";
-    
+    final cartItems = [];
+    String address = box.read("address") ;
+    String phone = box.read("phone") ;
+    String username = box.read("username") ;
+
     final snackBar = SnackBar(
       content: const Text('Order completed !'),
       action: SnackBarAction(
@@ -219,10 +213,10 @@ class PayScreenPage extends State<PayScreen> {
                           flex: 4,
                           child: Container(
                             alignment: Alignment.centerRight,
-                            child: Text(
-                                cartItems.products.length.toString() + "items",
+                            child: const Text(
+                                "items",
                                 textAlign: TextAlign.left,
-                                style: const TextStyle(
+                                style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: Colors.black)),
                           ),
@@ -256,9 +250,9 @@ class PayScreenPage extends State<PayScreen> {
                           flex: 1,
                           child: Container(
                             alignment: Alignment.centerRight,
-                            child: Text(cartItems.totalAmount.toString(),
+                            child: const Text("",
                                 textAlign: TextAlign.left,
-                                style: const TextStyle(
+                                style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: Colors.black)),
                           ),
@@ -332,9 +326,9 @@ class PayScreenPage extends State<PayScreen> {
                           flex: 1,
                           child: Container(
                             alignment: Alignment.centerRight,
-                            child: Text(cartItems.totalAmount.toString(),
+                            child: const Text("",
                                 textAlign: TextAlign.left,
-                                style: const TextStyle(
+                                style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: Colors.black)),
                           ),
@@ -357,23 +351,23 @@ class PayScreenPage extends State<PayScreen> {
                     disabledColor: const Color.fromARGB(255, 214, 155, 53),
                     borderRadius: BorderRadius.circular(30),
                     onPressed: () async {
-                      List<ItemBill> list = [];
-                      for (var item in cartItems.products.values) {
-                        list.add(ItemBill(
-                            id: item.id,
-                            name: item.name,
-                            quantity: item.quantity,
-                            image: item.imageLink,
-                            price: item.price));
-                      }
-                      createArea(list,phone,address);
-                      cartItems.clear();
+                      // List<ItemBill> list = [];
+                      // for (var item in cartItems.products.values) {
+                      //   list.add(ItemBill(
+                      //       id: item.id,
+                      //       name: item.name,
+                      //       quantity: item.quantity,
+                      //       image: item.imageLink,
+                      //       price: item.price));
+                      // }
+                      // createArea(list, phone, address);
+                      // cartItems.clear();
 
-                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => YourOrders()));
+                      // ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => YourOrders()));
                     },
                     child: const Text(
                       "Complete",

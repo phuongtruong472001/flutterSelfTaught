@@ -34,7 +34,7 @@ class MyProfilePage extends State<MyProfile> {
 
   @override
   Widget build(BuildContext context) {
-    String username = box.read("username");
+    String username = box.read("username")??"";
     int optionLogin = box.read("status");
     return Scaffold(
       body: Container(
@@ -153,7 +153,7 @@ class MyProfilePage extends State<MyProfile> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => ListFavorite()));
+                                    builder: (context) => ListFavorite(listFavorite: [],)));
                           },
                           child: const ListTile(
                               leading: Icon(

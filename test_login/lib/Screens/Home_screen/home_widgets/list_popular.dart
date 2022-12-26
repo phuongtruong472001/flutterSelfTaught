@@ -1,26 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:test_login/Models/product.dart';
 
-import '../../../loaded.dart';
 import '../../Products/detail_product.dart';
 
-class ListPopular extends StatefulWidget {
-  @override
-  ListPopularPage createState() => ListPopularPage();
-}
+class ListPopular extends StatelessWidget {
+  List<Product> listProducts;
 
-class ListPopularPage extends State<ListPopular> {
+  ListPopular({Key? key, required this.listProducts}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final data = Provider.of<Products>(context);
-    final startApp = Provider.of<StartApp>(context);
-
-    if (startApp.isGetData == false) {
-      data.fetchProduct();
-      startApp.getDataComplete();
-    }
-    final listProducts = data.products;
     return SizedBox(
       height: (listProducts.length + 1) * 200 / 2,
       child: GridView.builder(
@@ -50,12 +38,16 @@ class ListPopularPage extends State<ListPopular> {
                       width: 100,
                       child: Hero(
                           tag: listProducts[index],
-                          child: Image.network(listProducts[index].imageLink)),
+                          child: Image.network(
+                            listProducts[index].imageLink,
+                          )),
                     ),
                   ),
                 ),
-                Text(listProducts[index].name),
-                Text("\$ " + listProducts[index].price.toString()),
+                Text(
+                  listProducts[index].name,
+                ),
+                Text("\$ ${listProducts[index].price}"),
                 Padding(
                   padding: const EdgeInsets.only(left: 60),
                   child: Row(
